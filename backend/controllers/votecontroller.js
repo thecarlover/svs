@@ -37,8 +37,8 @@ export const addVoter = async (req, res) => {
   const { voterName } = req.body;
 
   try {
-    // Check if the voter already exists
-    let voter = await Voter.findOne({ name: voterName });
+    // Checking if the voter already exists
+    let voter = await Voter.findById(req.user.id);
     if (voter) {
       return res.status(400).json({ message: 'Voter already exists.' });
     }

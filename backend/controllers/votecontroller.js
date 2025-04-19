@@ -6,9 +6,10 @@ export const vote = async (req, res) => {
   const { voterName, candidateId } = req.body;
 
   try {
-    let voter = await Voter.findOne({ name: voterName });
+    // Only allow registered voters
+    const voter = await Voter.findOne({ name: voterName });
     if (!voter) {
-      voter = new Voter({ name: voterName });
+      return res.status(404).json({ message: 'Voter not found. Please register first.' });
     }
 
     if (voter.hasVoted) {
